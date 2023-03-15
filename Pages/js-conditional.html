@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Javascript Conditional</title>
+</head>
+
+<body>
+    <script>
+        //if
+        function ifconditional() {
+            let respond = prompt('Berapa Hasil 2 + 1?');
+
+            if (respond == 3) {
+                alert("Kamu benar")
+            }
+        }
+        ifconditional();
+
+        //if-else
+        function ifelseconditional() {
+            let respond = prompt('Berapa Hasil 7 x 10?');
+
+            if (respond == 70) {
+                alert("Kamu Benar");
+            } else {
+                alert("Kamu Salah");
+            }
+        }
+        ifelseconditional();
+
+        //else-if
+        function elseifconditional() {
+            let respond = prompt("Masukkan Nilai Anda")
+
+            if (respond >= 70 && respond <= 100) {
+                alert("Pertahankan Nilai Kamu!");
+            } else if (respond < 70 && respond >= 0) {
+                alert("Tingkatkan Lagi Nilai Kamu!")
+            } else
+                alert("Anda Salah Memasukkan Nilai!")
+        }
+        elseifconditional();
+
+        //switch
+        function switcconditional() {
+            let respond = prompt(
+                "Silahkan Pilih Menu Makanan Berikut Ini: \n 1. Nasi Goreng \n 2. Pecel Lele \n 3. Soto Ayam");
+
+            switch (respond) {
+                case "1":
+                    alert("Harganya 13.000")
+                    break;
+
+                case "2":
+                    alert("Harganya 14.000")
+                    break;
+
+                case "3":
+                    alert("Harganya 10.000")
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        switcconditional();
+    </script>
+</body>
+
+</html>
