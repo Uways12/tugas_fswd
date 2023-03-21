@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Javascript API To Do List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
 </head>
@@ -30,6 +30,7 @@
         const input = document.getElementById("myinput");
         const toggle = document.getElementById("btn");
         const alertContainer = document.querySelector(".alert-container");
+        const apiUrl = "https://crudcrud.com/api/cac7a50dc6a04ad3bbad9f46ded1ca31/tasks";
 
         const savedTasks = localStorage.getItem("tasks");
         if (savedTasks) {
@@ -39,7 +40,7 @@
         toggle.addEventListener("click", function () {
             const task = input.value;
             const alertMsg = `
-    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert" data-id="">
       ${task}
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -51,7 +52,16 @@
 
             const alerts = alertContainer.querySelectorAll(".alert");
             alerts.forEach((alert) => {
-                alert.addEventListener("click", function () {
+                alert.addEventListener("click", function (event) {
+                    const alertId = event.target.closest(".alert").getAttribute("data-id");
+                    if (alertId) {
+                        fetch(`${apiUrl}/${alertId}`, {
+                            method: "DELETE",
+                        })
+                            .then((response) => response.json())
+                            .then((data) => console.log(data))
+                            .catch((error) => console.log(error));
+                    }
                     alert.classList.toggle("text-decoration-line-through");
                 });
             });
@@ -60,16 +70,50 @@
             closeButtons.forEach((button) => {
                 button.addEventListener("click", function () {
                     const alert = button.parentElement;
+                    const alertId = alert.getAttribute("data-id");
+                    if (alertId) {
+                        fetch(`${apiUrl}/${alertId}`, {
+                            method: "DELETE",
+                        })
+                            .then((response) => response.json())
+                            .then((data) => console.log(data))
+                            .catch((error) => console.log(error));
+                    }
                     alert.remove();
                     localStorage.setItem("tasks", alertContainer.innerHTML);
                 });
             });
+            fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    task: task
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    const newAlert = alertContainer.querySelector(`[data-id=""]`);
+                    newAlert.setAttribute("data-id", data._id);
+                })
+                .catch((error) => console.log(error));
         });
 
         window.addEventListener("load", function () {
             const alerts = alertContainer.querySelectorAll(".alert");
             alerts.forEach((alert) => {
-                alert.addEventListener("click", function () {
+                alert.addEventListener("click", function (event) {
+                    const alertId = event.target.closest(".alert").getAttribute("data-id");
+                    if (alertId) {
+                        fetch(`${apiUrl}/${alertId}`, {
+                            method: "DELETE",
+                        })
+                            .then((response) => response.json())
+                            .then((data) => console.log(data))
+                            .catch((error) => console.log(error));
+                    }
                     alert.classList.toggle("text-decoration-line-through");
                 });
             });
@@ -85,7 +129,6 @@
         });
 
     </script>
-
 </body>
 
 </html>
